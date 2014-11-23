@@ -16,10 +16,7 @@ object Application extends Controller {
   
   def index() = Action { request =>
 	    val conf = ConfigFactory.load()
-   
-	    println(conf.getString("clavin.index"))
     	var parser:GeoParser = GeoParserFactory.getDefault(conf.getString("clavin.index"))
-		//var inputString:String = "I live in Boston"
     	val body: AnyContent = request.body
     	val textBody: Option[String] = body.asText
     	  
@@ -31,17 +28,19 @@ object Application extends Controller {
     	
 		val locs = new ListBuffer[JsObject]()
 		for( r <- rl){
-			var jl = Json.obj("geonameID" -> r.geoname.geonameID,
-					 "name" -> r.geoname.name,
-					 "locationText" -> r.location.text,
-                     "countryName" -> r.geoname.getPrimaryCountryName(),
-                     "population" -> r.geoname.population,
-                     "admin1Code" -> r.geoname.admin1Code,
-					 "locationPosition" -> r.location.position,
-					 "fuzzy" -> r.fuzzy,
-					 "confidence" -> r.confidence,
-					 "latitude" -> r.geoname.latitude,
-					 "longitude" -> r.geoname.longitude)
+			var jl = Json.obj(
+				     "geonameID" -> r.getGeoname().getGeonameID(),
+					 "name" -> r.getGeoname().getName(),
+					 "locationText" -> r.getLocation().getText(),
+                     "countryName" -> r.getGeoname().getPrimaryCountryName(),
+                     "population" -> r.getGeoname().getPopulation(),
+                     "admin1Code" -> r.getGeoname().getAdmin1Code(),
+					 "locationPosition" -> r.getLocation().getPosition(),
+					 // "fuzzy" -> r.getFuzzy(),
+					 "confidence" -> r.getConfidence(),
+					 "latitude" -> r.getGeoname().getLatitude(),
+					 "longitude" -> r.getGeoname().getLongitude()
+			)
 			locs.append(jl)
 		}
 				

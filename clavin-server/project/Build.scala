@@ -11,7 +11,7 @@ object ApplicationBuild extends Build {
     // Add your project dependencies here,
     jdbc,
     anorm,
-    "com.bericotech" % "clavin" % "1.0.0rc7"
+    "com.bericotech" % "clavin" % "2.0.0"
     //"com.google.code.gson" % "gson" % "2.2.4"
   )
 
